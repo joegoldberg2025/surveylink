@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
     // IMPORTANT: Replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' with YOUR deployed Google Apps Script Web App URL.
-    // See the "Backend Setup" section below for instructions on how to get this URL.
+    // You MUST get this URL after deploying your Google Apps Script (Code.gs) as a Web App.
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVlDX29P9GQ5sEOa6vYYXnf_CWDZhjP7YtqU5uE2GOe8l5vMJvXWIgruzgg778DDbG9w/exec"; 
+    
+    // Log the SCRIPT_URL to the console. Check your browser's developer console (F12)
+    // to ensure this URL is correct after you've deployed your Apps Script.
+    console.log("Current SCRIPT_URL:", SCRIPT_URL);
 
     // --- GLOBAL VARIABLES ---
     let cachedResults = []; // To store results when multiple are found for a search
@@ -19,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const addFeedbackMessage = document.getElementById('addFeedbackMessage');
     const surveyUrlInput = document.getElementById('surveyUrl');
     const targetGroupInput = document.getElementById('targetGroup');
-    const bypassLinkInput = document.getElementById('bypassLink'); // Added for clarity
-    const additionalDetailsInput = document.getElementById('additionalDetails'); // Added for clarity
+    const bypassLinkInput = document.getElementById('bypassLink');
+    const additionalDetailsInput = document.getElementById('additionalDetails');
     const surveyUrlError = document.getElementById('surveyUrlError');
     const targetGroupError = document.getElementById('targetGroupError');
 
@@ -93,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement.classList.add('show');
             return false;
         } 
-        // Validation passes
+        // Validation passes: clear error message
         else {
             errorElement.textContent = '';
             errorElement.classList.remove('show');
@@ -291,18 +295,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleCopy() {
         const textToCopy = resultBypassLink.textContent;
         if (textToCopy && textToCopy !== 'N/A') {
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = copyButton.textContent;
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => { copyButton.textContent = originalText; }, 2000); // Revert text after 2 seconds
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                // Fallback for environments where clipboard API might not work (e.g., some iframes)
-                // Note: alert() is generally avoided in production apps, but used here as a last resort fallback.
-                // For a real app, consider a custom modal or toast notification.
-                // For Canvas, avoid alert().
+            // Use document.execCommand('copy') for broader compatibility in iframe environments
+            const tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const originalText = copyButton.textContent;
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => { copyButton.textContent = originalText; }, 2000); // Revert text after 2 seconds
+                } else {
+                    console.error('Failed to copy text using execCommand.');
+                    showFeedback('Failed to copy. Please copy manually.', 'error', getFeedbackMessage);
+                }
+            } catch (err) {
+                console.error('Error copying text:', err);
                 showFeedback('Failed to copy. Please copy manually.', 'error', getFeedbackMessage);
-            });
+            } finally {
+                document.body.removeChild(tempInput);
+            }
         }
     }
 
@@ -359,8 +372,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {HTMLElement} element - The HTML element to display the message in.
      */
     function showFeedback(message, type, element) {
+        // Ensure previous classes are removed before adding new ones
+        element.classList.remove('success', 'error'); 
         element.textContent = message;
-        element.className = `feedback-message ${type}`; // Apply class for styling
-        element.classList.add('show'); // Make visible
+        element.classList.add('feedback-message', type, 'show'); // Apply class for styling and make visible
     }
 });
