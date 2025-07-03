@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Nexus</title>
+    <!-- Google Fonts: Poppins for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to your custom stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header class="app-header">
+            <h1>Survey Nexus</h1>
+            <p>Your streamlined hub for survey data management.</p>
+        </header>
+
+        <!-- Card for selecting Add/Get mode -->
+        <div class="card selector-card">
+            <div class="form-group">
+                <label for="modeSelector">Choose Action</label>
+                <div class="select-wrapper">
+                    <select id="modeSelector" class="mode-selector">
+                        <option value="add" selected>Register New Survey</option>
+                        <option value="get">Retrieve Survey Details</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section to Add New Survey Data -->
+        <section id="addSurveySection" class="card form-section">
+            <form id="addSurveyForm" novalidate>
+                <h2>Register New Survey</h2>
+                <div class="form-group">
+                    <label for="surveyUrl">Survey URL</label>
+                    <input type="url" id="surveyUrl" name="surveyUrl" placeholder="e.g., https://yoursurvey.com/id/123" required>
+                    <small class="error-text" id="surveyUrlError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="targetGroup">Target Audience</label>
+                    <input type="text" id="targetGroup" name="targetGroup" placeholder="e.g., IT Professionals, Age 25-40" required>
+                    <small class="error-text" id="targetGroupError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="bypassLink">Direct Access Link (Optional)</label>
+                    <input type="url" id="bypassLink" name="bypassLink" placeholder="e.g., https://yoursurvey.com/direct-link">
+                </div>
+                <div class="form-group">
+                    <label for="additionalDetails">Notes / Project Info (Optional)</label>
+                    <textarea id="additionalDetails" name="additionalDetails" rows="4" placeholder="e.g., Project Falcon, Q3 campaign..."></textarea>
+                </div>
+                <button type="submit" class="primary-btn" id="addSurveyButton">Save Survey</button>
+                <div id="addFeedbackMessage" class="feedback-message"></div>
+            </form>
+        </section>
+
+        <!-- Section to Get Existing Survey Data -->
+        <section id="getSurveySection" class="card form-section hidden">
+            <form id="getSurveyForm" novalidate>
+                <h2>Retrieve Survey Details</h2>
+                <div class="form-group">
+                    <label for="searchSurveyUrl">Survey URL to Search</label>
+                    <input type="url" id="searchSurveyUrl" placeholder="Paste the survey URL here" required>
+                    <small class="error-text" id="searchSurveyUrlError"></small>
+                </div>
+                <button type="submit" class="primary-btn" id="getSurveyButton">Find Details</button>
+                <div id="getFeedbackMessage" class="feedback-message"></div>
+            </form>
+            
+            <!-- Section for multiple results (hidden by default) -->
+            <div id="multipleResultsSection" class="form-group hidden">
+                <label for="multipleResultsSelector">Multiple entries found. Select a timestamp:</label>
+                <div class="select-wrapper">
+                    <select id="multipleResultsSelector" class="mode-selector"></select>
+                </div>
+            </div>
+
+            <!-- Container for displaying survey results (hidden by default) -->
+            <div id="resultsContainer" class="results-card hidden">
+                <h3>Survey Information</h3>
+                <div class="result-item">
+                    <strong>Target Audience:</strong>
+                    <p id="resultTargetGroup"></p>
+                </div>
+                <div class="result-item">
+                    <strong>Direct Access Link:</strong>
+                    <div class="copy-wrapper">
+                        <span id="resultBypassLink"></span>
+                        <button type="button" id="copyButton" class="copy-btn">Copy</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <strong>Notes / Project Info:</strong>
+                    <p id="resultAdditionalDetails"></p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Link to your JavaScript file -->
+    <script src="script.js"></script>
+    <!-- Vercel Analytics script (keep if deploying to Vercel) -->
+    <script src="https://va.vercel-scripts.com/v1/script.js"></script>
+</body>
+</html>

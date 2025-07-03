@@ -1,0 +1,311 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-accent: #6C5CE7; /* A vibrant purple */
+    --primary-hover: #5444C0;
+    --bg-color: #F8F9FA; /* Light grey background */
+    --card-bg: #FFFFFF;
+    --text-color: #333F4A; /* Darker grey for main text */
+    --label-color: #5F738C; /* Muted blue-grey for labels */
+    --border-color: #E2E8F0; /* Light border */
+    --input-bg: #FDFEFE; /* Almost white input background */
+    --success-color: #28A745; /* Green for success */
+    --success-bg-light: #E6FAEC;
+    --error-color: #DC3545; /* Red for error */
+    --error-bg-light: #FDE8E9;
+    --shadow-light: 0 6px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    line-height: 1.6;
+    min-height: 100vh; /* Ensure it takes full viewport height */
+}
+
+/* --- Layout & App Header --- */
+.main-wrapper {
+    width: 100%;
+    max-width: 700px; /* Max width for content */
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.app-header h1 {
+    font-size: 3rem;
+    color: var(--primary-accent);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.app-header p {
+    font-size: 1.15rem;
+    color: var(--label-color);
+}
+
+/* --- Card & Form Styling --- */
+.card {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 16px; /* More rounded corners */
+    box-shadow: var(--shadow-light);
+    margin-top: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px); /* Subtle lift effect on hover */
+}
+
+.card.selector-card {
+    padding: 1.5rem 2.5rem; /* Smaller padding for the selector card */
+}
+
+.card.form-section h2 {
+    margin-bottom: 1.8rem;
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary-accent);
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: var(--label-color);
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+}
+
+input[type="url"],
+input[type="text"],
+textarea,
+.mode-selector {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px; /* Rounded input fields */
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.2); /* Focus ring with primary accent color */
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: '▼'; /* Custom dropdown arrow */
+    font-size: 0.8rem;
+    color: var(--label-color);
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.mode-selector {
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+/* --- Buttons --- */
+.primary-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px; /* Slightly increased letter spacing */
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); /* Enhanced shadow on hover */
+}
+
+.primary-btn:disabled {
+    background-color: #B0B7BF; /* Muted color when disabled */
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* --- Feedback & Utility --- */
+.feedback-message {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    display: none; /* Hidden by default */
+    font-weight: 500;
+    animation: fadeIn 0.5s forwards; /* Fade-in animation */
+}
+
+.feedback-message.show {
+    display: block;
+}
+
+.feedback-message.success {
+    background-color: var(--success-bg-light);
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.feedback-message.error {
+    background-color: var(--error-bg-light);
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+}
+
+.error-text {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.error-text.show {
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Results Display --- */
+.results-card {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+}
+
+.results-card h3 {
+    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+    color: var(--primary-accent);
+    text-align: center;
+}
+
+.result-item {
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed #EBF1F7; /* Subtle dashed separator */
+}
+.result-item:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.result-item strong {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.result-item p,
+.result-item span {
+    color: var(--label-color);
+    word-break: break-all; /* Ensures long URLs break correctly */
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.copy-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.copy-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    background-color: #EEF2F6; /* Light background for copy button */
+    color: var(--label-color);
+    border: 1px solid #DCE3EA;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    flex-shrink: 0; /* Prevent shrinking */
+    font-weight: 500;
+}
+
+.copy-btn:hover {
+    background-color: #DDE2E7;
+    transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+    .card {
+        padding: 1.8rem;
+    }
+    .app-header h1 {
+        font-size: 2.2rem;
+    }
+    .app-header p {
+        font-size: 1rem;
+    }
+    .card.form-section h2 {
+        font-size: 1.5rem;
+    }
+    .primary-btn {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    input[type="url"], input[type="text"], textarea, .mode-selector {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+}
