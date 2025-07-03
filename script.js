@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
     // IMPORTANT: Replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' with YOUR deployed Google Apps Script Web App URL.
     // See the "Backend Setup" section below for instructions on how to get this URL.
-    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVlDX29P9GQ5sEOa6vYYXnf_CWDZhjP7YtqU5uE2GOe8l5vMJvXWIgruzgg778DDbG9w/exec"; 
 
     // --- GLOBAL VARIABLES ---
     let cachedResults = []; // To store results when multiple are found for a search
